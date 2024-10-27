@@ -83,7 +83,7 @@ public class AccountController {
         }
 
         if (password != null && !password.isEmpty()) {
-            account.Password = password;
+            account.Password = CryptoManager.HashSha256(password);
         }
         else {
             throw new PasswordEmptyException();
