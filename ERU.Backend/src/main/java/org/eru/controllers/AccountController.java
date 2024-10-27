@@ -1,9 +1,7 @@
 package org.eru.controllers;
 
 import org.eru.Variables;
-import org.eru.errorhandling.exceptions.account.AccountNotActiveException;
-import org.eru.errorhandling.exceptions.account.InvalidAccountCredentials;
-import org.eru.errorhandling.exceptions.account.InvalidRefreshTokenException;
+import org.eru.errorhandling.exceptions.account.*;
 import org.eru.errorhandling.exceptions.common.oauth.InvalidClientException;
 import org.eru.errorhandling.exceptions.common.oauth.InvalidRequestException;
 import org.eru.errorhandling.exceptions.common.oauth.UnsupportedGrantType;
@@ -29,6 +27,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class AccountController {
@@ -36,6 +35,72 @@ public class AccountController {
     @Autowired
     private HttpServletRequest request;
 
+    @PostMapping(value = "/account/api/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Account> createAccount(@RequestParam Map<String, String> paramMap, @RequestHeader Map<String, String> headers) throws InvalidClientException, EmailAlreadyTakenException, UsernameAlreadyTakenException, PasswordEmptyException {
+        String email = paramMap.get("email");
+        String username = paramMap.get("username");
+        String name = paramMap.get("name");
+        String password = paramMap.get("password");
+
+        String clientId;
+        String deviceId;
+
+        // TODO: Use this with the rest of the endpoints to determine if it's coming from the client
+        try {
+            String[] auth = CryptoManager.DecodeBase64(headers.get("authorization").split(" ")[1]).split(":");
+
+            if (auth.length != 2) {
+                throw new InvalidClientException();
+            }
+
+            clientId = auth[0];
+        }
+        catch (Exception e) {
+            throw new InvalidClientException();
+        }
+
+        Account account = new Account();
+
+        if (email != null && !email.isEmpty()) {
+            // TODO: Send a confirmation email
+            account.Email = email;
+
+            if (MongoDBManager.getInstance().getAccountByEmail(email) != null) {
+                throw new EmailAlreadyTakenException();
+            }
+        }
+
+        if (username != null && !username.isEmpty()) {
+            account.DisplayName = username;
+
+            if (MongoDBManager.getInstance().getAccountByUsername(username) != null) {
+                throw new UsernameAlreadyTakenException();
+            }
+        }
+
+        if (name != null && !name.isEmpty()) {
+            account.Name = name;
+        }
+
+        if (password != null && !password.isEmpty()) {
+            account.Password = password;
+        }
+        else {
+            throw new PasswordEmptyException();
+        }
+
+        account.Id = UUID.randomUUID().toString();
+        while (MongoDBManager.getInstance().getAccountByAccountId(account.Id) != null) {
+            account.Id = UUID.randomUUID().toString();
+        }
+
+        MongoDBManager.getInstance().pushAccount(account);
+
+        return ResponseEntity.ok(account);
+    }
+
+
+    // TODO: Rewrite everything below
     @PostMapping(value = "/account/api/oauth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<OAuthToken> token(@RequestParam Map<String, String> paramMap, @RequestHeader Map<String, String> headers)
             throws InvalidClientException, InvalidRequestException, InvalidAccountCredentials, UnsupportedGrantType, InvalidRefreshTokenException, AccountNotActiveException {
@@ -83,7 +148,7 @@ public class AccountController {
                     throw new InvalidRequestException("Username/password");
                 }
 
-                user = MongoDBManager.getInstance().getUserByEmail(email);
+                //user = MongoDBManager.getInstance().getUserByEmail(email);
 
                 if (user == null || user.Email == null || !user.Email.equals(email)) {
                     throw new InvalidAccountCredentials();
@@ -125,7 +190,7 @@ public class AccountController {
                     throw new InvalidRefreshTokenException(refresh_token);
                 }
 
-                user = MongoDBManager.getInstance().getUserByAccountId(token.AccountId);
+                //user = MongoDBManager.getInstance().getUserByAccountId(token.AccountId);
             }
             case "exchange_code" -> {
                 if (exchange_code == null || exchange_code.isEmpty()) {
@@ -170,7 +235,7 @@ public class AccountController {
         DecodedJWT decodedAccess = JwtGenerator.getInstance().decodeJwt(accessToken);
         DecodedJWT decodedRefresh = JwtGenerator.getInstance().decodeJwt(refreshToken);
 
-        MongoDBManager.getInstance().updateUserByAccountId(user);
+        //MongoDBManager.getInstance().updateUserByAccountId(user);
 
         return ResponseEntity.ok(new OAuthToken(accessToken, refreshToken, decodedAccess, decodedRefresh, user, clientId, deviceId));
     }
@@ -231,8 +296,7 @@ public class AccountController {
             }
 
             clientId = auth[0];
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new InvalidClientException();
         }
 
@@ -255,8 +319,7 @@ public class AccountController {
             if ((expireInstant.getEpochSecond() - Instant.now().getEpochSecond() <= 0)) {
                 throw new Exception("Expired refresh token");
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             if (refreshToken != null && refreshToken.AccountId != null && !refreshToken.AccountId.isEmpty()) {
                 MongoDBManager.getInstance().removeRefreshTokenByToken(refresh_token);
             }
@@ -264,11 +327,11 @@ public class AccountController {
             throw new InvalidRefreshTokenException(refresh_token);
         }
 
-        User user = MongoDBManager.getInstance().getUserByAccountId(refreshToken.AccountId);
+        //User user = MongoDBManager.getInstance().getUserByAccountId(refreshToken.AccountId);
 
         return ResponseEntity.ok(new OAuthToken() {
             {
-                Scope = new String[] { "basic_profile", "friends_list", "openid", "presence" };
+                Scope = new String[]{"basic_profile", "friends_list", "openid", "presence"};
                 TokenType = "bearer";
                 AccessToken = "ERUAccessToken";
                 RefreshToken = "ERURefreshToken";
@@ -277,93 +340,12 @@ public class AccountController {
                 ExpiresAt = "9999-12-31T23:59:59.999Z";
                 RefreshExpires = 28800;
                 RefreshExpiresAt = "9999-12-31T23:59:59.999Z";
-                AccountId = user.AccountId;
+                AccountId = "ACCOUNTID";
                 ClientId = clientId;
                 ApplicationId = "ERUApplicationId";
-                SelectedAccountId = user.AccountId;
+                SelectedAccountId = "ACCOUNTID";
                 MergedAccounts = new String[0];
             }
         });
-    }
-
-    @GetMapping("/account/api/public/account/{accountId}")
-    public ResponseEntity<Account> getAccountLookupById(@PathVariable String accountId) {
-        User user = MongoDBManager.getInstance().getUserByAccountId(accountId);
-        return ResponseEntity.ok(new Account() {
-            {
-                Id = user.AccountId;
-                DisplayName = user.Username;
-            }
-        });
-    }
-
-    @GetMapping("/account/api/public/account/{accountId}/externalAuths")
-    public ResponseEntity<ArrayList<String>> getExternalAuthsById(@PathVariable String accountId) {
-        return ResponseEntity.ok(new ArrayList<>());
-    }
-
-    @GetMapping("/account/api/oauth/verify")
-    public ResponseEntity<OAuthToken> verify(@RequestHeader Map<String, String> headers) {
-        String token = headers.get("authorization").replace("bearer ", "");
-        DecodedJWT decodedToken = JwtGenerator.getInstance().decodeJwt(token.replace("eg1~", ""));
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneId.of("UTC"));
-
-        String jti = decodedToken.getClaim("jti").asString();
-        String clid = decodedToken.getClaim("clid").asString();
-        String am = decodedToken.getClaim("am").asString();
-        String dvid = decodedToken.getClaim("dvid").asString();
-        String sub = decodedToken.getClaim("sub").asString();
-
-        User user = MongoDBManager.getInstance().getUserByAccountId(sub);
-
-        String creationDate = decodedToken.getClaim("creation_date").asString();
-        int expirationHours = Integer.parseInt(decodedToken.getClaim("hours_expire").asString());
-
-        Instant creationDateInstant = Instant.parse(creationDate);
-        Instant expireInstant = creationDateInstant.plusSeconds(expirationHours * 3600L);
-
-        return ResponseEntity.ok(new OAuthToken() {
-            {
-                Token = token;
-                SessionId = jti;
-                TokenType = "bearer";
-                ClientId = clid;
-                InternalClient = true;
-                ClientService = "eru";
-                AccountId = user.AccountId;
-                ExpiresIn = (int) (expireInstant.getEpochSecond() - Instant.now().getEpochSecond());
-                ExpiresAt = dtf.format(expireInstant);
-                AuthMethod = am;
-                DisplayName = user.Username;
-                App = "eru";
-                InAppId = user.AccountId;
-                DeviceId = dvid;
-            }
-        });
-    }
-
-    @GetMapping("/account/api/public/account")
-    public ResponseEntity<ArrayList<Account>> getAccounts(@RequestParam(value = "accountId", required = false) String[] accountIdArray)
-    {
-        ArrayList<Account> ret = new ArrayList<>();
-
-        if (accountIdArray != null) {
-            for (String id : accountIdArray) {
-                if (ret.size() >= 100) break;
-
-                User user = MongoDBManager.getInstance().getUserByAccountId(id);
-
-                if (user != null && !user.AccountId.isEmpty()) {
-                    ret.add(new Account() {
-                        {
-                            Id = user.AccountId;
-                            DisplayName = user.Username;
-                        }
-                    });
-                }
-            }
-        }
-
-        return ResponseEntity.ok(ret);
     }
 }

@@ -1,5 +1,6 @@
 package org.eru.managers;
 
+import org.eru.models.account.Account;
 import org.eru.models.mongo.IPModel;
 import org.eru.models.mongo.Token;
 import org.eru.models.mongo.user.User;
@@ -45,44 +46,62 @@ public class MongoDBManager {
         USER_DATABASE = DATABASE_CLIENT.getDatabase("UserData");
     }
 
-    public User getUserByEmail(String email) {
-        MongoCollection<User> collection = USER_DATABASE.getCollection("Users", User.class);
+    public Account getAccountByEmail(String email) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Users", Account.class);
         if (collection.countDocuments(eq("email", email)) == 0) {
-            return new User();
+            return null;
         }
 
         return collection.find(eq("email", email)).first();
     }
 
-    public User getUserByAccountId(String accountId) {
-        MongoCollection<User> collection = USER_DATABASE.getCollection("Users", User.class);
-        if (collection.countDocuments(eq("accountId", accountId)) == 0) {
+    public Account getAccountByUsername(String username) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Users", Account.class);
+        if (collection.countDocuments(eq("display_name", username)) == 0) {
             return null;
         }
 
-        return collection.find(eq("accountId", accountId)).first();
+        return collection.find(eq("display_name", username)).first();
     }
 
-    public void updateUserByAccountId(User user) {
-        MongoCollection<User> collection = USER_DATABASE.getCollection("Users", User.class);
-        if (collection.countDocuments(eq("accountId", user.AccountId)) == 0) {
+    public Account getAccountByAccountId(String accountId) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Accounts", Account.class);
+        if (collection.countDocuments(eq("account_id", accountId)) == 0) {
+            return null;
+        }
+
+        return collection.find(eq("account_id", accountId)).first();
+    }
+
+    public void updateAccountByAccountId(Account user) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Accounts", Account.class);
+        if (collection.countDocuments(eq("account_id", user.Id)) == 0) {
             return;
         }
 
-        collection.replaceOne(eq("accountId", user.AccountId), user);
+        collection.replaceOne(eq("account_id", user.Id), user);
     }
 
-    public void removeUserByAccountId(String accountId) {
-        MongoCollection<User> collection = USER_DATABASE.getCollection("Users", User.class);
-        if (collection.countDocuments(eq("accountId", accountId)) == 0) {
+    public void pushAccount(Account user) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Accounts", Account.class);
+        if (collection.countDocuments(eq("account_id", user.Id)) != 0) {
             return;
         }
 
-        collection.deleteOne(eq("accountId", accountId));
+        collection.insertOne(user);
     }
 
-    public void addUser(User user) {
-        MongoCollection<User> collection = USER_DATABASE.getCollection("Users", User.class);
+    public void removeAccountByAccountId(String accountId) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Accounts", Account.class);
+        if (collection.countDocuments(eq("account_id", accountId)) == 0) {
+            return;
+        }
+
+        collection.deleteOne(eq("account_id", accountId));
+    }
+
+    public void addAccount(Account user) {
+        MongoCollection<Account> collection = USER_DATABASE.getCollection("Accounts", Account.class);
         collection.insertOne(user);
     }
 
