@@ -1,4 +1,4 @@
-package org.eru.models.account.actions;
+package org.eru.models.mongo.user.actions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
