@@ -1,0 +1,70 @@
+/* Main container for centering profile content  */
+.container {
+    display: flex;                   /* Flexbox layout */
+    justify-content: center;         /* Centers content horizontally */
+    align-items: center;             /* Centers content vertically */
+    padding: 20px;                   /* Adds padding */
+    max-width: 400px;                /* Sets a max width */
+    margin: auto;                    /* Centers container */
+}
+
+/* Wrapper for profile content */
+.profile-page {
+    text-align: center;              /* Aligns text to center */
+    width: 100%;                     /* Profile page takes full width */
+}
+
+/* Username section container */
+.profile-user-name {
+    margin-top: 10px;                /* Creates margin above */
+}
+
+/* Username text styling  */
+.user-name {
+    font-size: 28px;                                                            /* Sets font size */
+    padding-left: 10px;                                                         /* Adds left padding */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   /* Sets font style */
+}
+
+/* Profile image styling */
+.profile-img img {
+    display: inline;                 /* Aligns image with text */
+    border-radius: 50%;              /* Rounds image to a circle */
+    padding: 0 0 0 4px;              /* Adds padding to the left */
+    width: 80px;                     /* Sets width */
+    height: 80px;                    /* Sets height */
+}
+
+/* Display name section container */
+.profile-name {
+    margin-top: 8px;                 /* Creates margin above */
+}
+
+/* Display name text styling */
+.name {
+    text-align: left;                /* Aligns text to the left */
+    font-size: 20px;                 /* Sets a medium font size */
+    padding-left: 20px;              /* Adds padding for alignment */
+}
+
+/* Bio section styling */
+.profile-bio {
+    font-size: 13px;                 /* Sets font size */
+    padding: 10px;                   /* Adds padding */
+}
+
+/* Posts box styling */
+.profile-posts-box {
+    margin: 10px auto;               /* Centers post box, adds margin on top */
+    width: 100%;                     /* Post box takes full width */
+    max-width: 350px;                /* Sets max width */
+    height: auto;                    /* Dynamic height adjustment */
+    min-height: 100px;               /* Sets minimum height */
+    border: 1px solid gray;          /* Adds a gray border around box */
+    padding: 10px;                   /* Adds padding inside box */
+}
+
+/* Divider line styling */
+.posts {
+    margin-top: 10px;                /* Adds space above the line for separation */
+}
