@@ -1,0 +1,93 @@
+/* Ensure the page takes up the full viewport height without creating a scroll bar */
+html, body {
+  margin: 0;
+  padding: 15px;
+  height: 100%;
+  overflow: hidden; /* Prevent body-level scroll */
+}
+
+/* Explore Page */
+.explore-container {
+  height: calc(100vh - 60px); /* Subtract height of the fixed navbar */
+  overflow-y: auto; /* Allow scrolling inside the explore container */
+  padding: 10px;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Increase the min-width of grid items */
+  gap: 15px;
+}
+
+.explore-item {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.explore-item:hover {
+  transform: scale(1.05); /* Slightly enlarge post on hover */
+}
+
+.explore-item img {
+  width: 100%;
+  height: 300px; /* Set a fixed height for the images */
+  object-fit: cover; /* Crop images to maintain aspect ratio */
+  border-radius: 10px;
+}
+
+/* Modal Styling */
+.post-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px; /* Increase max width for larger image */
+  width: 80%;
+  position: relative;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto; /* Let the image adjust based on width */
+  max-height: 500px; /* Max height for modal image */
+  object-fit: cover;
+}
+
+.modal-details {
+  margin-top: 10px;
+}
+
+.post-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: white;
+  background-color: red;
+  border-radius: 50%;
+  padding: 7px;
+  z-index: 1100;
+}
