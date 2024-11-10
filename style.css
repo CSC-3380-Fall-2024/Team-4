@@ -1,0 +1,57 @@
+/*
+
+:root{
+    --base-color: white;
+    --base-variant: #e8e9ed;
+    --text-color:black;
+    --secondary-text: black;
+    --primary-color: grey;
+    --accent-color: rgb(74, 9, 135);
+}
+
+.darkmode{
+    --base-color: black;
+    --base-variant: #101425;
+    --text-color:white;
+    --secondary-text: #e8e8e8;
+    --primary-color: grey;
+    --accent-color:gold;
+}
+
+body{
+    background-color: var(--base-color);
+    color: var(--text-color);
+}
+
+#theme-switch{
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 0;
+    background-color: var(--base-variant);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+#theme-switch svg{
+    fill: var(--primary-color);
+}
+
+#theme-switch svg:last-child{
+    display: none;
+}
+
+.darkmode #theme-switch svg:first-child{
+    display: none;
+}
+
+.darkmode #theme-switch svg:last-child{
+    display: block;
+}
+
+
+*/
