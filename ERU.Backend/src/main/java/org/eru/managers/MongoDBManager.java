@@ -6,6 +6,7 @@ import org.eru.models.mongo.IPModel;
 import org.eru.models.mongo.SlugModel;
 import org.eru.models.mongo.Token;
 import org.eru.models.mongo.user.Client;
+import org.eru.models.mongo.user.Post;
 import org.eru.models.mongo.user.User;
 import com.mongodb.ConnectionString;
 import com.mongodb.client.*;
@@ -18,6 +19,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -49,8 +51,35 @@ public class MongoDBManager {
                 .build();
 
         DATABASE_CLIENT = MongoClients.create(clientSettings);
-        USER_DATABASE = DATABASE_CLIENT.getDatabase("UserData");
-        CLIENT_DATABASE = DATABASE_CLIENT.getDatabase("ClientData");
+        USER_DATABASE = DATABASE_CLIENT.getDatabase("ERUData");
+    }
+
+    public List<Post> getAllPosts() {
+        MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
+
+        List<User> documents = collection.find().into(new ArrayList<>());
+        List<Post> posts = new ArrayList<>();
+
+        for (User user : documents) {
+            for (Post post : user.Posts) {
+                post.OwningUser = getDisplayNameByAccountId(user.AccountId);
+                post.OwningPicture = getProfilePictureByAccountId(user.AccountId);
+            }
+
+            posts.addAll(user.Posts);
+        }
+
+        return posts;
+    }
+
+    public String getDisplayNameByAccountId(String accountId) {
+        User user = getUserByAccountId(accountId);
+        return user.DisplayName;
+    }
+
+    public String getProfilePictureByAccountId(String accountId) {
+        User user = getUserByAccountId(accountId);
+        return user.ProfilePicture;
     }
 
     public User getUserByEmail(String email) {
@@ -62,31 +91,76 @@ public class MongoDBManager {
         return collection.find(eq("email", email)).first();
     }
 
+    public void updatePostByIdentifier(Post post) {
+        MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
+
+        List<User> documents = collection.find().into(new ArrayList<>());
+
+        for (User user : documents) {
+            for (Post userPost : user.Posts) {
+                if (userPost.Identifier.equals(post.Identifier))
+                {
+                    userPost.Caption = post.Caption;
+                    userPost.OwningUser = null;
+                    userPost.OwningPicture = null;
+                    userPost.Likes = post.Likes;
+                    userPost.Comments = post.Comments;
+                    userPost.Content = post.Content;
+
+                    updateUserByAccountId(user);
+                }
+            }
+        }
+    }
+
+    public Post getPostByIdentifier(String identifier) {
+        MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
+
+        List<User> documents = collection.find().into(new ArrayList<>());
+
+        for (User user : documents) {
+            for (Post post : user.Posts) {
+                if (post.Identifier.equals(identifier)) return post;
+            }
+        }
+
+        return null;
+    }
+
     public User getUserByAccountId(String accountId) {
         MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
-        if (collection.countDocuments(eq("accountId", accountId)) == 0) {
+        if (collection.countDocuments(eq("account_id", accountId)) == 0) {
             return null;
         }
 
-        return collection.find(eq("accountId", accountId)).first();
+        return collection.find(eq("account_id", accountId)).first();
+    }
+
+    public void pushUser(User user) {
+        MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
+        if (collection.countDocuments(eq("account_id", user.AccountId)) != 0) {
+            return;
+        }
+
+        collection.insertOne(user);
     }
 
     public void updateUserByAccountId(User user) {
         MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
-        if (collection.countDocuments(eq("accountId", user.AccountId)) == 0) {
+        if (collection.countDocuments(eq("account_id", user.AccountId)) == 0) {
             return;
         }
 
-        collection.replaceOne(eq("accountId", user.AccountId), user);
+        collection.replaceOne(eq("account_id", user.AccountId), user);
     }
 
     public void removeUserByAccountId(String accountId) {
         MongoCollection<User> collection = USER_DATABASE.getCollection("Accounts", User.class);
-        if (collection.countDocuments(eq("accountId", accountId)) == 0) {
+        if (collection.countDocuments(eq("account_id", accountId)) == 0) {
             return;
         }
 
-        collection.deleteOne(eq("accountId", accountId));
+        collection.deleteOne(eq("account_id", accountId));
     }
 
     public void addUser(User user) {
@@ -101,11 +175,11 @@ public class MongoDBManager {
 
     public Token getRefreshTokenByAccountId(String accountId) {
         MongoCollection<Token> collection = USER_DATABASE.getCollection("RefreshTokens", Token.class);
-        if (collection.countDocuments(eq("accountId", accountId)) == 0) {
+        if (collection.countDocuments(eq("account_id", accountId)) == 0) {
             return new Token();
         }
 
-        return collection.find(eq("accountId", accountId)).first();
+        return collection.find(eq("account_id", accountId)).first();
     }
 
     public Token getRefreshTokenByToken(String token) {

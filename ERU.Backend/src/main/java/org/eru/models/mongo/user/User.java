@@ -38,4 +38,7 @@ public class User {
 
     @JsonProperty("banned")
     public boolean Banned;
+
+    @JsonProperty("profile_picture")
+    public String ProfilePicture;
 }

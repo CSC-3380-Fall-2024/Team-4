@@ -1,8 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import Homefeed from './pages/Homefeed.js';
 import Explore from './pages/Explore.js';
 import Nav from './components/Nav/Nav';
+import Upload from './pages/Upload.js'
+
 import './styles/Explore.css';
 import './styles/App.css';
 
@@ -16,6 +19,7 @@ function App() {
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Homefeed />} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/upload" element={<Upload />} />
           </Routes>
         </div>
       </div>
