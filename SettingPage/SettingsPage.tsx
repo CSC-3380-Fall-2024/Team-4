@@ -23,7 +23,7 @@ const SettingsPage: React.FC = () => {
           {/* Updated the image path here */}
           <img src="./profile.jpg" alt="Profile" />
           <h2>John Doe</h2>
-          <p>777 Ben Hur Rd, Baton Rouge, LA 17101</p>
+          <p>Baton Rouge, LA</p>
         </div>
 
         <div className="section">
