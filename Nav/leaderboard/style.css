@@ -1,0 +1,21 @@
+.containor{
+    text-align: center;
+    font-size: 50px;
+    border: 10px;
+    color: lightskyblue;
+    font-style: georgia;
+}
+
+.logo{
+    transform: scale(0.25);
+    display: block; 
+    position:relative;
+    top: -420px;
+    left: 183px;
+
+}
+
+.display{  
+    text-align: center;
+    margin-top: -700px;
+}
