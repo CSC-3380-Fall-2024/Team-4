@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/Explore.css';
 
-const Explore = () => {
-  const initialPosts = [
+// Define the Post interface
+interface Post {
+  id: number;
+  imageUrl: string;
+  username: string;
+  caption: string;
+}
+
+const Explore: React.FC = () => {
+  const initialPosts: Post[] = [
     { id: 1, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player 1', caption: 'Caption 1' },
     { id: 2, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player 2', caption: 'Caption 2' },
     { id: 3, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player 3', caption: 'Caption 3' },
@@ -12,9 +20,9 @@ const Explore = () => {
     { id: 7, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player 7', caption: 'Caption 7' },
   ];
 
-  const [posts, setPosts] = useState(initialPosts);
-  const [loading, setLoading] = useState(false);
-  const [enlargedPost, setEnlargedPost] = useState(null);
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [enlargedPost, setEnlargedPost] = useState<Post | null>(null);
 
   // Load more posts
   const loadMorePosts = () => {
@@ -22,7 +30,7 @@ const Explore = () => {
     setLoading(true);
 
     setTimeout(() => {
-      const newPosts = [
+      const newPosts: Post[] = [
         { id: posts.length + 1, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player ' + (posts.length + 1), caption: 'New Caption ' + (posts.length + 1) },
         { id: posts.length + 2, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player ' + (posts.length + 2), caption: 'New Caption ' + (posts.length + 2) },
         { id: posts.length + 3, imageUrl: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png', username: 'Player ' + (posts.length + 3), caption: 'New Caption ' + (posts.length + 3) },
@@ -34,7 +42,7 @@ const Explore = () => {
   };
 
   // Handle clicking on a post to enlarge
-  const handlePostClick = (post) => {
+  const handlePostClick = (post: Post) => {
     setEnlargedPost(post);
   };
 
@@ -44,7 +52,7 @@ const Explore = () => {
   };
 
   // Infinite scroll using IntersectionObserver
-  const bottomRef = useRef(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -68,8 +76,6 @@ const Explore = () => {
 
   return (
     <div className="explore-container">
-    
-
       <div className="explore-grid">
         {posts.map((post) => (
           <div key={post.id} className="explore-item" onClick={() => handlePostClick(post)}>

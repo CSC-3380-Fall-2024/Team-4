@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import Homefeed from './pages/Homefeed.js';
-import Explore from './pages/Explore.js';
+import Homefeed from './pages/Homefeed';
+import Explore from './pages/Explore';
 import Nav from './components/Nav/Nav';
-import Upload from './pages/Upload.js'
+import Upload from './pages/Upload';
 
 import './styles/Explore.css';
 import './styles/App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
@@ -25,6 +25,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
