@@ -5,6 +5,7 @@ import org.eru.models.mongo.user.Post;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eru.models.mongo.user.User;
 import org.eru.models.mongo.user.actions.Comment;
+import org.eru.models.mongo.user.actions.Like;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,21 @@ public class AccountController {
         MongoDBManager.getInstance().updateUserByAccountId(user);
 
         return ResponseEntity.ok(post);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/post/{identifier}/like")
+    public ResponseEntity<Like> like(@RequestBody Like like, @PathVariable String identifier) {
+        Post post = MongoDBManager.getInstance().getPostByIdentifier(identifier);
+        if (post == null) {
+            return ResponseEntity.ok(new Like());
+        }
+
+        post.Likes.add(like);
+
+        MongoDBManager.getInstance().updatePostByIdentifier(post);
+
+        return ResponseEntity.ok(like);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

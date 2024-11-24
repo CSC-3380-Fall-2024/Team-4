@@ -2,7 +2,7 @@ package org.eru.errorhandling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EpicErrorModel {
+public class EruErrorModel {
     @JsonProperty("errorCode")
     public String ErrorCode;
 
@@ -27,7 +27,7 @@ public class EpicErrorModel {
     @JsonProperty("error")
     public String Error;
 
-    public EpicErrorModel(String errorCode, String errorMessage, String[] messageVars, int numericErrorCode) {
+    public EruErrorModel(String errorCode, String errorMessage, String[] messageVars, int numericErrorCode) {
         ErrorCode = errorCode;
         ErrorMessage = errorMessage;
         MessageVars = messageVars;

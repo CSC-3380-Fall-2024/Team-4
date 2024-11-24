@@ -4,6 +4,6 @@ import org.eru.errorhandling.BaseException;
 
 public class NoOffersException  extends BaseException {
     public NoOffersException() {
-        super("errors.com.epicgames.eru.empty_offers", "There are no line offers!", 400, 16202);
+        super("errors.org.eru.eru.empty_offers", "There are no line offers!", 400, 16202);
     }
 }

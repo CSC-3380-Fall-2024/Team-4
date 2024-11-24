@@ -4,6 +4,6 @@ import org.eru.errorhandling.BaseException;
 
 public class AuthenticationFailed extends BaseException {
     public AuthenticationFailed(String context) {
-        super("errors.com.epicgames.common.authentication_failed", "Authentication failed for " + context, 400, 1032);
+        super("errors.org.eru.common.authentication_failed", "Authentication failed for " + context, 400, 1032);
     }
 }

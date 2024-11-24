@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<EpicErrorModel> handleException(BaseException e) {
+    public ResponseEntity<EruErrorModel> handleException(BaseException e) {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("X-Epic-Error-Name", e.ErrorCode);
         responseHeaders.set("X-Epic-Error-Code", Integer.toString(e.StatusCode));
 
-        return ResponseEntity.status(e.StatusCode).headers(responseHeaders).body(new EpicErrorModel(e.ErrorCode, e.getMessage(), e.MessageVars, e.NumericErrorCode));
+        return ResponseEntity.status(e.StatusCode).headers(responseHeaders).body(new EruErrorModel(e.ErrorCode, e.getMessage(), e.MessageVars, e.NumericErrorCode));
     }
 
     //@ExceptionHandler(Exception.class)
-    public ResponseEntity<EpicErrorModel> handleException(Exception e) {
+    public ResponseEntity<EruErrorModel> handleException(Exception e) {
         return handleException(new ServerErrorException());
     }
 }

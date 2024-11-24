@@ -4,6 +4,6 @@ import org.eru.errorhandling.BaseException;
 
 public class InvalidRequestException extends BaseException {
     public InvalidRequestException(String missing) {
-        super("errors.com.epicgames.common.oauth.invalid_request", missing + " is required.", 400, 1013);
+        super("errors.org.eru.common.oauth.invalid_request", missing + " is required.", 400, 1013);
     }
 }
