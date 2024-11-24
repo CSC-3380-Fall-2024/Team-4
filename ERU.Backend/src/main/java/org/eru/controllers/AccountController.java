@@ -58,6 +58,17 @@ public class AccountController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/post/{identifier}/likes")
+    public ResponseEntity<List<Like>> getLikes(@PathVariable String identifier) {
+        Post post = MongoDBManager.getInstance().getPostByIdentifier(identifier);
+        if (post == null) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+
+        return ResponseEntity.ok(post.Likes);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/post/{identifier}/comment")
     public ResponseEntity<Comment> comment(@RequestBody Comment comment, @PathVariable String identifier) {
         Post post = MongoDBManager.getInstance().getPostByIdentifier(identifier);
