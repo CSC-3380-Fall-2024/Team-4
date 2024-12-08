@@ -11,6 +11,10 @@
     {
       "label": "Profile",
       "href": "/profile"
+    },
+    {
+      "label": "Leaderboard",
+      "href": "/leaderboard"
     }
   ]
 }
