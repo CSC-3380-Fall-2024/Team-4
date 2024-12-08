@@ -1,0 +1,125 @@
+.App {
+  background-color: #fafafa;
+  min-height: 100vh;
+  
+}
+
+/* Scrollable feed */
+.home-feed {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+/* comment section */
+.post-comments {
+  padding: 10px;
+  font-size: 14px;
+  color: #262626;
+}
+
+.post-add-comment {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-add-comment input {
+  width: 80%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+}
+
+.post-add-comment button {
+  padding: 8px 12px;
+  background-color: #3897f0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.post-add-comment button:hover {
+  background-color: #0077b5;
+}
+
+
+/* Post styling */
+.post {
+  background-color: white;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+  text-align: left;
+  overflow: hidden;
+}
+
+/* Post header with profile picture */
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.post-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+
+.post-container {
+  width: 100%;
+  padding: 0;
+}
+
+/* Post image fills container */
+.post-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+/* Action buttons inside post container */
+.post-actions {
+  display: flex;
+  padding: 10px;
+  justify-content: flex-start;
+}
+
+.post-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+/* Captions */
+.post-caption {
+  padding: 10px;
+  font-size: 14px;
+  color: #262626;
+}
+
+.post-caption strong {
+  margin-right: 5px;
+}
+
+/* For mobile screens */
+@media screen and (max-width: 600px) {
+  .home-feed {
+    max-width: 100%;
+  }
+
+  .post-header h3 {
+    font-size: 1rem;
+  }
+}
