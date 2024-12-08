@@ -8,6 +8,7 @@ const Layout = () => {
       <Tabs.Screen name="explore" options={{ title: 'Explore' }} />
       <Tabs.Screen name="homefeed" options={{ title: 'Homefeed' }} />
       <Tabs.Screen name="upload" options={{ title: 'Upload' }} />
+      <Tabs.Screen name="settings" options={{ title: 'Settings' }} />
     </Tabs>
   );
 };
