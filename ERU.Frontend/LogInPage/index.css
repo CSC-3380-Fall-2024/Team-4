@@ -1,0 +1,56 @@
+.login_text {
+    font-style: normal;
+    font-size: 45px;
+    text-align: center;
+    position:relative;
+    top:5px;
+
+}
+
+.content_box{
+
+    border: 1px solid black;
+    padding: 5px;
+    height: 400px;
+    width: 380px;
+    position: relative;
+    left: 450px;
+    top: 5px;
+}
+
+.user_text{
+    font-style: normal;
+    font-size: 28px;
+    text-align: center;
+    position:relative;
+    top: 50px;
+
+}
+
+.user_box{
+  
+   margin-top: 40px;
+   margin-left: 79px;
+   width: 60%;
+   height: 30px
+
+}
+
+.pass_text{
+    font-style: normal;
+    font-size: 28px;
+    text-align: center;
+    position:relative;
+    top: 20px;
+}
+
+.pass_box{
+    margin-top: 20px;
+    margin-left: 79px;
+    width: 60%;
+    height: 30px
+}
+
+.enter_button{
+    margin-left: 175px;
+}
