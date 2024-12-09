@@ -3,13 +3,7 @@ import './styles/App.css';
 
 import Nav from './components/Nav/Nav';
 import Post from './components/Post';
-
-// Define interfaces for comments and post data
-interface Comment {
-  account: string;
-  content: string;
-  likes: string[]; // Adjust this type based on the structure of `likes`
-}
+import Comment from './components/Comment';
 
 interface PostData {
   identifier: string;
@@ -112,7 +106,7 @@ const HomeFeed: React.FC = () => {
           imageUrl={post.imageUrl}
           caption={post.caption}
           profilePic={post.profilePic}
-          comments={post.comments} // Passing the comments array to Post component
+          comments={post.comments}
         />
       ))}
       {loading && <div className="loading">Loading more posts...</div>}
