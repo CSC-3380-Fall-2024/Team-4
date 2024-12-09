@@ -18,7 +18,7 @@ public class AccountController {
     @Autowired
     private HttpServletRequest request;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/account/feed")
     public ResponseEntity<List<Post>> feed() {
         List<Post> posts = MongoDBManager.getInstance().getAllPosts();
@@ -26,7 +26,7 @@ public class AccountController {
         return ResponseEntity.ok(posts);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/account/post")
     public ResponseEntity<Post> post(@RequestBody Post post) {
         User user = MongoDBManager.getInstance().getUserByAccountId(post.OwningUser);
@@ -42,7 +42,7 @@ public class AccountController {
         return ResponseEntity.ok(post);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/post/{identifier}/like")
     public ResponseEntity<Like> like(@RequestBody Like like, @PathVariable String identifier) {
         Post post = MongoDBManager.getInstance().getPostByIdentifier(identifier);
@@ -57,7 +57,7 @@ public class AccountController {
         return ResponseEntity.ok(like);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/post/{identifier}/likes")
     public ResponseEntity<List<Like>> getLikes(@PathVariable String identifier) {
         Post post = MongoDBManager.getInstance().getPostByIdentifier(identifier);
@@ -68,7 +68,7 @@ public class AccountController {
         return ResponseEntity.ok(post.Likes);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/post/{identifier}/comment")
     public ResponseEntity<Comment> comment(@RequestBody Comment comment, @PathVariable String identifier) {
         Post post = MongoDBManager.getInstance().getPostByIdentifier(identifier);

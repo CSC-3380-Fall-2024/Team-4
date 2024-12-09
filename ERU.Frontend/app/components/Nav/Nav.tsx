@@ -1,8 +1,7 @@
-import React from "react"; // Import React for JSX syntax and components
-import styles from "./Nav.module.css"; // Import CSS module for styling
-import data from "./links.json"; // Import navigation links from JSON file
+import React from "react";
+import styles from "./Nav.module.css";
+import data from "./links.json";
 
-// Define TypeScript interfaces
 interface Link {
   href: string;
   label: string;
@@ -12,10 +11,8 @@ interface LinksProps {
   links: Link[];
 }
 
-// Logo reference (assumes it is in the public folder)
-const logo = "/logo.png";
+const logo = "/icons/logo.png";
 
-// Functional component to render the list of navigation links
 const Links: React.FC<LinksProps> = ({ links }) => {
   return (
     <div className={styles["links-container"]}>
@@ -28,9 +25,7 @@ const Links: React.FC<LinksProps> = ({ links }) => {
   );
 };
 
-// Main navigation bar component
 const Nav: React.FC = () => {
-  // Extract the 'links' array from the JSON data
   const links: Link[] = data.links;
 
   return (
