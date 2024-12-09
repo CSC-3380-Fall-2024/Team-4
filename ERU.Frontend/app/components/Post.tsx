@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import '../styles/App.css';
 
-// Define interfaces for props and comments
+interface Like {
+  account: string;
+}
+
 interface Comment {
   account: string;
   content: string;
-  likes: string[]; // Adjust this type based on the structure of `likes`
+  likes: Like[];
 }
 
 interface PostProps {
@@ -106,9 +109,9 @@ const Post: React.FC<PostProps> = ({ identifier, username, imageUrl, caption, pr
       <div>
         <img src={imageUrl} alt="Post" style={postImageStyle} />
         <div style={postActionsStyle}>
-          <img src="./like.png" alt="Like" style={postIconStyle} />
+          <img src="./icons/like.png" alt="Like" style={postIconStyle} />
           <img
-            src="./comment.png"
+            src="./icons/comment.png"
             alt="Comment"
             style={postIconStyle}
             onClick={() => setCommentInputVisible(!isCommentInputVisible)}
