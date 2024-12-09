@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/App.css';
 
-interface Like {
-  account: string;
-}
-
-interface Comment {
-  account: string;
-  content: string;
-  likes: Like[];
-}
+import Comment from "./Comment";
 
 interface PostProps {
   identifier: string;
