@@ -1,8 +1,11 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import Nav from "./components/Nav/Nav"; 
 
 const Layout = () => {
   return (
+     <>
+      <Nav /> 
     <Tabs>
       <Tabs.Screen name="index" options={{ title: 'Home', headerShown: false }} />
       <Tabs.Screen name="explore" options={{ title: 'Explore', headerShown: false  }} />
@@ -10,6 +13,7 @@ const Layout = () => {
       <Tabs.Screen name="upload" options={{ title: 'Upload', headerShown: false  }} />
       <Tabs.Screen name="settings" options={{ title: 'Settings', headerShown: false  }} />
     </Tabs>
+    </>
   );
 };
 
