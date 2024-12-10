@@ -21,6 +21,8 @@ const Settings: React.FC = () => {
       <View style={styles.themeContainer}>
         <Text style={[styles.themeText, isDarkMode ? styles.darkText : styles.lightText]}>Dark Theme</Text>
         <Switch
+          value={isDarkMode} 
+          onValueChange={toggleSwitch} 
         
         />
        
