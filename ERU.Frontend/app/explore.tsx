@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './styles/Explore.css';
 
-// Define the Post interface
+import Nav from './components/Nav/Nav';
+
 interface Post {
   id: number;
   imageUrl: string;
@@ -24,7 +25,6 @@ const Explore: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [enlargedPost, setEnlargedPost] = useState<Post | null>(null);
 
-  // Load more posts
   const loadMorePosts = () => {
     if (loading) return;
     setLoading(true);
@@ -38,20 +38,17 @@ const Explore: React.FC = () => {
       ];
       setPosts((prevPosts) => [...prevPosts, ...newPosts]);
       setLoading(false);
-    }, 1000); // Simulate network delay
+    }, 1000);
   };
 
-  // Handle clicking on a post to enlarge
   const handlePostClick = (post: Post) => {
     setEnlargedPost(post);
   };
 
-  // Handle closing the enlarged post view
   const closeEnlargedPost = () => {
     setEnlargedPost(null);
   };
 
-  // Infinite scroll using IntersectionObserver
   const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -76,6 +73,7 @@ const Explore: React.FC = () => {
 
   return (
     <div className="explore-container">
+      <Nav/>
       <div className="explore-grid">
         {posts.map((post) => (
           <div key={post.id} className="explore-item" onClick={() => handlePostClick(post)}>
@@ -86,7 +84,6 @@ const Explore: React.FC = () => {
 
       {loading && <div className="loading">Loading more posts...</div>}
 
-      {/* Enlarged Post View */}
       {enlargedPost && (
         <div className="post-modal" onClick={closeEnlargedPost}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -104,7 +101,6 @@ const Explore: React.FC = () => {
         </div>
       )}
 
-      {/* Bottom ref element for IntersectionObserver */}
       <div ref={bottomRef}></div>
     </div>
   );

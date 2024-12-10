@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
+import Nav from './components/Nav/Nav';
+
 const Upload: React.FC = () => {
   const [caption, setCaption] = useState<string>('');
   const [image, setImage] = useState<File | null>(null);
@@ -7,14 +9,12 @@ const Upload: React.FC = () => {
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Handle image input change
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
     }
   };
 
-  // Convert file to Base64
   const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -24,7 +24,6 @@ const Upload: React.FC = () => {
     });
   };
 
-  // Handle form submission
   const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -75,6 +74,7 @@ const Upload: React.FC = () => {
 
   return (
     <div className="upload-page" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+      <Nav/>
       <h2>Upload a New Post</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {uploadSuccess && <p style={{ color: 'green' }}>Post uploaded successfully!</p>}
