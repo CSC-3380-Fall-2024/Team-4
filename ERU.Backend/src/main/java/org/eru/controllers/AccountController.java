@@ -14,16 +14,20 @@ import java.util.*;
 
 @RestController
 public class AccountController {
-
-    @Autowired
-    private HttpServletRequest request;
-
     @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/account/feed")
     public ResponseEntity<List<Post>> feed() {
         List<Post> posts = MongoDBManager.getInstance().getAllPosts();
         Collections.reverse(posts);
         return ResponseEntity.ok(posts);
+    }
+
+    @CrossOrigin(origins = "http://localhost:8081")
+    @GetMapping("/account/{accountId}/feed")
+    public ResponseEntity<List<Post>> accountFeed(@PathVariable(value = "accoundId", required = true) String accountId) {
+        User user = MongoDBManager.getInstance().getUserByAccountId(accountId);
+        Collections.reverse(user.Posts);
+        return ResponseEntity.ok(user.Posts);
     }
 
     @CrossOrigin(origins = "http://localhost:8081")

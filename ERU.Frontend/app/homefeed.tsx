@@ -4,15 +4,7 @@ import './styles/App.css';
 import Nav from './components/Nav/Nav';
 import Post from './components/Post';
 import Comment from './components/Comment';
-
-interface PostData {
-  identifier: string;
-  username: string;
-  caption: string;
-  imageUrl: string;
-  profilePic: string;
-  comments: Comment[];
-}
+import PostData from './components/PostData';
 
 const HomeFeed: React.FC = () => {
   const [posts, setPosts] = useState<PostData[]>([]);
