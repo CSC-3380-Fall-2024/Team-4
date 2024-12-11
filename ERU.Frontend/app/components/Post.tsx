@@ -101,17 +101,11 @@ const Post: React.FC<PostProps> = ({ identifier, username, imageUrl, caption, pr
       <div>
         <img src={imageUrl} alt="Post" style={postImageStyle} />
         <div style={postActionsStyle}>
-          <img src="./icons/like.png" alt="Like" style={postIconStyle} />
           <img
             src="./icons/comment.png"
             alt="Comment"
             style={postIconStyle}
             onClick={() => setCommentInputVisible(!isCommentInputVisible)}
-          />
-          <img
-            src="https://img.icons8.com/?size=100&id=18765&format=png&color=000000"
-            alt="Save"
-            style={postIconStyle}
           />
         </div>
         <p style={postCaptionStyle}>

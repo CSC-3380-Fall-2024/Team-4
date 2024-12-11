@@ -19,6 +19,26 @@ public class AccountController {
     private HttpServletRequest request;
 
     @CrossOrigin(origins = "http://localhost:8081")
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<User> getAccount(@PathVariable String accountId) {
+        User user = MongoDBManager.getInstance().getUserByAccountId(accountId);
+        return ResponseEntity.ok(user);
+    }
+
+    @CrossOrigin(origins = "http://localhost:8081")
+    @GetMapping("/account/{accountId}/feed")
+    public ResponseEntity<List<Post>> accountFeed(@PathVariable String accountId) {
+        User user = MongoDBManager.getInstance().getUserByAccountId(accountId);
+        Collections.reverse(user.Posts);
+
+        for (Post post : user.Posts) {
+            post.OwningPicture = user.ProfilePicture;
+            post.OwningUser = user.DisplayName;
+        }
+        return ResponseEntity.ok(user.Posts);
+    }
+
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/account/feed")
     public ResponseEntity<List<Post>> feed() {
         List<Post> posts = MongoDBManager.getInstance().getAllPosts();

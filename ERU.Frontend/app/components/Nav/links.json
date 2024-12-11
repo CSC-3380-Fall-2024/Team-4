@@ -2,7 +2,7 @@
   "links": [
     {
       "label": "Home",
-      "href": "/home"
+      "href": "/homefeed"
     },
     {
       "label": "Upload",
@@ -15,10 +15,6 @@
     {
       "label": "Explore",
       "href": "/explore"
-    },
-     {
-      "label": "Settings",
-      "href": "/settings"
     }
   ]
 }
