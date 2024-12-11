@@ -7,14 +7,12 @@ const Upload: React.FC = () => {
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Handle image input change
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
     }
   };
 
-  // Convert file to Base64
   const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -24,8 +22,8 @@ const Upload: React.FC = () => {
     });
   };
 
-  // Handle form submission
   const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
+    const AccountId = "Tamely"; // Hardcoded atm. TODO: Fetch from Login.
     e.preventDefault();
 
     if (!caption || !image) {
@@ -45,7 +43,7 @@ const Upload: React.FC = () => {
         caption: caption,
         likes: [],
         comments: [],
-        owning_user: "Anonymous",
+        owning_user: {AccountId},
         owning_picture: "NAN",
         identifier: "NAN",
       };

@@ -12,6 +12,7 @@ const Layout = () => {
       <Tabs.Screen name="homefeed" options={{ title: 'Homefeed', headerShown: false  }} />
       <Tabs.Screen name="upload" options={{ title: 'Upload', headerShown: false  }} />
       <Tabs.Screen name="settings" options={{ title: 'Settings', headerShown: false  }} />
+      <Tabs.Screen name="profile" options={{ title: 'Profile', headerShown: false  }} />
     </Tabs>
     </>
   );
