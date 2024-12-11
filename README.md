@@ -2,7 +2,7 @@
 
 ## How can I build this?
 
-[Video Tutorial If Preferred](https://github.com/CSC-3380-Fall-2024/Team-4/ReadMeFiles/BuildingAndRunning.mp4)
+[Video Tutorial If Preferred](https://github.com/CSC-3380-Fall-2024/Team-4/blob/main/ReadMeFiles/BuildingAndRunning.mp4)
 
 1. Install the following dependencies
     - [Node.JS v22.12.0](https://nodejs.org/en)
